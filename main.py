@@ -2,6 +2,8 @@
 import pygame as pg
 import color
 
+colors = color.colors
+
 pg.init()
 
 screen = pg.display.set_mode([800, 600])
@@ -13,8 +15,8 @@ while (running) :
         if (event.type == pg.QUIT) :
             running = False
 
-    screen.fill((0, 0, 0))
-    pg.draw.rect(screen, (255, 0, 0), [0, 0, 200, 200])
+    screen.fill(colors["black"])
+    pg.draw.rect(screen, colors["red"], [0, 0, 200, 200])
     pg.display.update()
 
 pg.quit()
