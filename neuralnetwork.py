@@ -38,7 +38,7 @@ class NeuralNetwork :
             self.outputs[i - 1] = self.outputs[i - 1] + self.biases[i - 1]
             self.outputs[i - 1] = self.outputs[i - 1].forEach(relu)
 
-        return self.outputs[-1]
+        return self.outputs[-1].unpack()
 
     def __str__(self) :
         outStr = StringIO()

@@ -56,6 +56,15 @@ class Matrix :
 
         return newMatrix
 
+    def unpack(self) :
+        unpacked = []
+
+        for i in range(self.rows) :
+            for j in range(self.columns) :
+                unpacked.append(self.matrix[i][j])
+
+        return unpacked
+
     def __str__(self) :
         outStr = StringIO()
 
