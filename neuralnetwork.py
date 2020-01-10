@@ -2,6 +2,8 @@
 from io import StringIO
 from matrix import Matrix
 from random import random
+from color import colors
+import pygame as pg
 
 def relu(x) :
     return max(0, x)
@@ -17,10 +19,20 @@ class NeuralNetwork :
         self.outputs = []
         self.numLayers = len(shape)
 
+        self.x = 100
+        self.y = 100
+        self.layerMargin = 56
+        self.neuronSize = 8
+        self.neuronMargin = 18
+        self.maxHeight = 0
+
         for i in range(self.numLayers) :
             r, c = shape[i]
             weights = Matrix(r, c).forEach(rand)
+            self.maxHeight = max(self.maxHeight, c)
             self.weights.append(weights)
+
+        self.maxHeight = self.maxHeight * (self.neuronSize + self.neuronMargin)
 
         for i in range(1, self.numLayers) :
             biases = Matrix(1, self.weights[i].columns).forEach(rand)
@@ -58,7 +70,18 @@ class NeuralNetwork :
 
         return outStr.getvalue()
 
+    def draw(self, screen) :
+        # Draw neurons
+        for i in range(self.numLayers) :
+            cols = self.weights[i].columns
+            layerHeight = (cols * (self.neuronSize + self.neuronMargin))
+            layerOffset = (self.maxHeight / 2) - (layerHeight / 2)
 
-# Turn Left, Turn Right, Move up, Shoot
-nn = NeuralNetwork([(1, 3), (3, 3), (3, 3), (3, 4)])
-print(nn.feedforward([[1, 2, 3]]))
+            for c in range(cols) :
+                neuronX = self.x + (i * self.layerMargin)
+                neuronY = (self.y + layerOffset) + (c * (self.neuronSize + self.neuronMargin))
+
+                pg.draw.circle(screen, colors["white"], [neuronX, int(neuronY)], self.neuronSize)
+
+
+        # Draw weights

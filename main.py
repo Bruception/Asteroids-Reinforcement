@@ -1,12 +1,16 @@
 
 import pygame as pg
 import color
+from neuralnetwork import NeuralNetwork
+
+nn = NeuralNetwork([(1, 3), (4, 9), (9, 9), (9, 9), (9, 4)])
 
 colors = color.colors
 
 pg.init()
 
 screen = pg.display.set_mode([800, 600])
+pg.display.set_caption("Asteroids!")
 
 running = True
 
@@ -16,7 +20,8 @@ while (running) :
             running = False
 
     screen.fill(colors["black"])
-    pg.draw.rect(screen, colors["red"], [0, 0, 200, 200])
+    nn.draw(screen)
+
     pg.display.update()
 
 pg.quit()
