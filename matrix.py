@@ -52,7 +52,7 @@ class Matrix :
 
         for i in range(self.rows) :
             for j in range(self.columns) :
-                newMatrix[i][j] = m[i][j]
+                newMatrix.matrix[i][j] = m[i][j]
 
         return newMatrix
 
