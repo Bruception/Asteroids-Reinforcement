@@ -57,6 +57,7 @@ class NeuralNetwork :
             self.outputs[index] = output * self.weights[i]
             self.outputs[index] = self.outputs[index] + self.biases[index]
             self.outputs[index] = self.outputs[index].forEach(relu)
+            output = self.outputs[index]
 
         return self.outputs[-1].unpack()
 
@@ -88,14 +89,22 @@ class NeuralNetwork :
 
     def draw(self, screen) :
         # Draw weights
+        color = None
         for i in range(self.numLayers) :
             for n in range(self.weights[i].columns) :
                 neuron = self.neuronCoords[i][n]
                 if(i < self.numLayers - 1) :
-                    for n2 in self.neuronCoords[i + 1] :
-                        pg.draw.line(screen, blue, neuron, n2, 1)
+                    for n2 in range(self.weights[i + 1].columns) :
+                        neuron2 = self.neuronCoords[i + 1][n2]
 
-                out = 1 if (i == 0) else self.outputs[i - 1].matrix[0][n]
-                color = white if (out > 0) else black
+                        weight = self.weights[i + 1].matrix[n][n2]
+                        color = (weight >= 0) and blue or red
+                        weight = int(abs(weight * 6))
+                        weight = weight > 0 and weight or 1
+
+                        pg.draw.line(screen, color, neuron, neuron2, weight)
+
+                out = (i == 0) and 1 or self.outputs[i - 1].matrix[0][n]
+                color = (out > 0) and white or black
 
                 pg.draw.circle(screen, color, self.neuronCoords[i][n], self.neuronSize)
