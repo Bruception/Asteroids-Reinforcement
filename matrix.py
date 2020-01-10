@@ -26,7 +26,7 @@ class Matrix :
 
         return newMatrix
 
-    #Element Wise addition
+    #Element wise addition
     def add(self, other) :
         newMatrix = Matrix(self.rows, self.columns)
 
@@ -43,6 +43,16 @@ class Matrix :
         for i in range(self.rows) :
             for j in range(self.columns) :
                 newMatrix.matrix[i][j] = func(self.matrix[i][j])
+
+        return newMatrix
+
+    #Copy contents from a 2D array
+    def copyFrom(self, m) :
+        newMatrix = Matrix(self.rows, self.columns)
+
+        for i in range(self.rows) :
+            for j in range(self.columns) :
+                newMatrix[i][j] = m[i][j]
 
         return newMatrix
 
