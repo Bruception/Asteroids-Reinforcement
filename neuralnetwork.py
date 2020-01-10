@@ -14,21 +14,31 @@ class NeuralNetwork :
     def __init__(self, shape) :
         self.weights = []
         self.biases = []
+        self.outputs = []
+        self.numLayers = len(shape)
 
-        numLayers = len(shape)
-
-        for i in range(numLayers) :
+        for i in range(self.numLayers) :
             r, c = shape[i]
             weights = Matrix(r, c).forEach(rand)
             self.weights.append(weights)
 
-        for i in range(1, numLayers) :
+        for i in range(1, self.numLayers) :
             biases = Matrix(1, self.weights[i].columns).forEach(rand)
             self.biases.append(biases)
+            self.outputs.append(False)
 
 
-    def feedforward(self) :
-        print("Feeding forward!")
+    def feedforward(self, input) :
+        self.weights[0] = self.weights[0].copyFrom(input)
+
+        output = self.weights[0]
+
+        for i in range(1, self.numLayers) :
+            self.outputs[i - 1] = output * self.weights[i]
+            self.outputs[i - 1] = self.outputs[i - 1] + self.biases[i - 1]
+            self.outputs[i - 1] = self.outputs[i - 1].forEach(relu)
+
+        return self.outputs[-1]
 
     def __str__(self) :
         outStr = StringIO()
@@ -48,5 +58,6 @@ class NeuralNetwork :
         return outStr.getvalue()
 
 
-nn = NeuralNetwork([(1, 3), (3, 3), (3, 3), (3, 4), (4, 2)])
-print(nn)
+nn = NeuralNetwork([(1, 3), (3, 3), (3, 3), (3, 4), (4, 4)])
+
+print(nn.feedforward([[1, 2, 3]]))
