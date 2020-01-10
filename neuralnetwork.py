@@ -26,9 +26,9 @@ class NeuralNetwork :
 
         self.x = 100
         self.y = 100
-        self.layerMargin = 56
-        self.neuronSize = 8
-        self.neuronMargin = 18
+        self.layerMargin = 48
+        self.neuronSize = 6
+        self.neuronMargin = 10
         self.maxHeight = 0
 
         for i in range(self.numLayers) :
@@ -88,7 +88,7 @@ class NeuralNetwork :
                 self.neuronCoords[i].append([int(neuronX), int(neuronY)])
 
     def draw(self, screen) :
-        # Draw weights
+        # Draw Network
         color = None
         for i in range(self.numLayers) :
             for n in range(self.weights[i].columns) :

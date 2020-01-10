@@ -3,7 +3,7 @@ import pygame as pg
 import color
 from neuralnetwork import NeuralNetwork
 
-nn = NeuralNetwork([(1, 10), (10, 9), (9, 9), (9, 9), (9, 4)])
+nn = NeuralNetwork([(1, 10), (10, 11), (11, 11), (11, 11), (11, 4)])
 print(nn.feedforward([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]))
 
 colors = color.colors
