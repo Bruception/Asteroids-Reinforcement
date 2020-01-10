@@ -3,11 +3,14 @@ import pygame as pg
 import color
 from neuralnetwork import NeuralNetwork
 
-nn = NeuralNetwork([(1, 3), (4, 9), (9, 9), (9, 9), (9, 4)])
+nn = NeuralNetwork([(1, 3), (3, 9), (9, 9), (9, 9), (9, 3)])
+nn.feedforward([[1, 2, 3]])
 
 colors = color.colors
 
 pg.init()
+font = pg.font.Font(None, 30)
+clock = pg.time.Clock()
 
 screen = pg.display.set_mode([800, 600])
 pg.display.set_caption("Asteroids!")
@@ -21,7 +24,10 @@ while (running) :
 
     screen.fill(colors["black"])
     nn.draw(screen)
+    fps = font.render(str(int(clock.get_fps())), True, pg.Color('white'))
+    screen.blit(fps, (50, 50))
+    clock.tick(30)
 
-    pg.display.update()
+    pg.display.flip()
 
 pg.quit()

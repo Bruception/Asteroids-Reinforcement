@@ -5,6 +5,11 @@ from random import random
 from color import colors
 import pygame as pg
 
+white = colors["white"]
+black = colors["black-dark"]
+blue = colors["blue"]
+red = colors["red"]
+
 def relu(x) :
     return max(0, x)
 
@@ -39,6 +44,8 @@ class NeuralNetwork :
             self.biases.append(biases)
             self.outputs.append(None)
 
+        self.neuronCoords = []
+        self.computeNeuronCoords()
 
     def feedforward(self, input) :
         self.weights[0] = self.weights[0].copyFrom(input)
@@ -57,31 +64,38 @@ class NeuralNetwork :
         outStr = StringIO()
 
         outStr.write("Weights:\n")
-
         for w in self.weights :
             outStr.write(str(w))
             outStr.write("\n")
 
         outStr.write("Biases:\n")
-
         for b in self.biases :
             outStr.write(str(b))
             outStr.write("\n")
 
         return outStr.getvalue()
 
-    def draw(self, screen) :
-        # Draw neurons
+    def computeNeuronCoords(self) :
         for i in range(self.numLayers) :
             cols = self.weights[i].columns
             layerHeight = (cols * (self.neuronSize + self.neuronMargin))
             layerOffset = (self.maxHeight / 2) - (layerHeight / 2)
-
+            self.neuronCoords.append([])
             for c in range(cols) :
                 neuronX = self.x + (i * self.layerMargin)
                 neuronY = (self.y + layerOffset) + (c * (self.neuronSize + self.neuronMargin))
+                self.neuronCoords[i].append([int(neuronX), int(neuronY)])
 
-                pg.draw.circle(screen, colors["white"], [neuronX, int(neuronY)], self.neuronSize)
-
-
+    def draw(self, screen) :
         # Draw weights
+        for i in range(self.numLayers) :
+            for n in range(self.weights[i].columns) :
+                neuron = self.neuronCoords[i][n]
+                if(i < self.numLayers - 1) :
+                    for n2 in self.neuronCoords[i + 1] :
+                        pg.draw.line(screen, blue, neuron, n2, 1)
+
+                out = 1 if (i == 0) else self.outputs[i - 1].matrix[0][n]
+                color = white if (out > 0) else black
+
+                pg.draw.circle(screen, color, self.neuronCoords[i][n], self.neuronSize)
