@@ -1,5 +1,6 @@
 
 import pygame as pg
+import color
 
 pg.init()
 
