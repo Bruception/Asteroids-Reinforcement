@@ -24,8 +24,8 @@ class NeuralNetwork :
         self.outputs = []
         self.numLayers = len(shape)
 
-        self.x = 100
-        self.y = 100
+        self.x = 20
+        self.y = 20
         self.layerMargin = 48
         self.neuronSize = 6
         self.neuronMargin = 10
