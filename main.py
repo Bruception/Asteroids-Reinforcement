@@ -1,12 +1,6 @@
 
 import pygame as pg
-import color
-from neuralnetwork import NeuralNetwork
-
-nn = NeuralNetwork([(1, 10), (10, 11), (11, 11), (11, 11), (11, 4)])
-print(nn.feedforward([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]))
-
-colors = color.colors
+from color import colors
 
 pg.init()
 font = pg.font.Font(None, 30)
@@ -23,9 +17,8 @@ while (running) :
             running = False
 
     screen.fill(colors["black"])
-    nn.draw(screen)
     fps = font.render(str(int(clock.get_fps())), True, pg.Color('white'))
-    screen.blit(fps, (50, 50))
+    screen.blit(fps, (750, 30))
     clock.tick(30)
 
     pg.display.flip()
