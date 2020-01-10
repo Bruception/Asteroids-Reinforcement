@@ -1,4 +1,4 @@
-from cStringIO import StringIO
+from io import StringIO
 
 class Matrix :
     def __init__(self, rows, columns) :
@@ -55,6 +55,15 @@ class Matrix :
                 newMatrix.matrix[i][j] = m[i][j]
 
         return newMatrix
+
+    def unpack(self) :
+        unpacked = []
+
+        for i in range(self.rows) :
+            for j in range(self.columns) :
+                unpacked.append(self.matrix[i][j])
+
+        return unpacked
 
     def __str__(self) :
         outStr = StringIO()
