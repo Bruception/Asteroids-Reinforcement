@@ -25,7 +25,7 @@ class NeuralNetwork :
         for i in range(1, self.numLayers) :
             biases = Matrix(1, self.weights[i].columns).forEach(rand)
             self.biases.append(biases)
-            self.outputs.append(False)
+            self.outputs.append(None)
 
 
     def feedforward(self, input) :
@@ -34,9 +34,10 @@ class NeuralNetwork :
         output = self.weights[0]
 
         for i in range(1, self.numLayers) :
-            self.outputs[i - 1] = output * self.weights[i]
-            self.outputs[i - 1] = self.outputs[i - 1] + self.biases[i - 1]
-            self.outputs[i - 1] = self.outputs[i - 1].forEach(relu)
+            index = i - 1
+            self.outputs[index] = output * self.weights[i]
+            self.outputs[index] = self.outputs[index] + self.biases[index]
+            self.outputs[index] = self.outputs[index].forEach(relu)
 
         return self.outputs[-1].unpack()
 
