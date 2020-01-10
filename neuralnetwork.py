@@ -1,5 +1,5 @@
 
-from cStringIO import StringIO
+from io import StringIO
 from matrix import Matrix
 from random import random
 
@@ -58,6 +58,6 @@ class NeuralNetwork :
         return outStr.getvalue()
 
 
-nn = NeuralNetwork([(1, 3), (3, 3), (3, 3), (3, 4), (4, 4)])
-
+# Turn Left, Turn Right, Move up, Shoot
+nn = NeuralNetwork([(1, 3), (3, 3), (3, 3), (3, 4)])
 print(nn.feedforward([[1, 2, 3]]))

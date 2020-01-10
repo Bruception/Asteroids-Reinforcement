@@ -1,4 +1,4 @@
-from cStringIO import StringIO
+from io import StringIO
 
 class Matrix :
     def __init__(self, rows, columns) :
