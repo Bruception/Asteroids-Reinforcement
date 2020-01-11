@@ -1,12 +1,14 @@
-
 import pygame as pg
-from color import colors
-from neuralnetwork import NeuralNetwork
-from random import random
-from matrix import Matrix
-import math
 
-white = colors["white"]
+import globals as g
+
+from bullet import Bullet
+from neuralnetwork import NeuralNetwork
+from matrix import Matrix
+
+import math
+from random import random
+
 shape = [(1, 3), (3, 11), (11, 11), (11, 11), (11, 11), (11, 4)]
 
 pointOffsets = [
@@ -43,6 +45,8 @@ class SpaceShip :
         self.centerX = self.x + self.width * 0.5
         self.centerY = self.y + self.height * 0.5
 
+        self.shootTimer = 0
+
         self.points = [
             [0, 0],
             [0, 0],
@@ -60,25 +64,34 @@ class SpaceShip :
         self.computePoints()
 
     def computeActions(self, dt) :
-        output = self.nn.feedforward([[10 * random(), 10 * random(), 10 * random()]])
+        output = self.nn.feedforward(
+            [[10 * random(), 10 * random(), 10 * random()]]
+        )
 
-        self.angle = self.angle + output[0] * dt
-        self.angle = self.angle - output[1] * dt
+        self.angle += output[0] * dt
+        self.angle -= output[1] * dt
         self.vel = min(100 * output[2], 200)
 
         self.x += self.vel * math.cos(self.angle) * dt
         self.y += self.vel * math.sin(self.angle) * dt
 
-    def bound(self) :
-        self.x = self.x if(self.x + self.width < 800) else 800 - self.width
-        self.x = 0 if(self.x <= 0) else self.x
-        self.y = self.y if (self.y + self.height < 600) else 600 - self.height
-        self.y = 0 if(self.y <= 0) else self.y
-
-    def computePoints(self) :
         self.centerX = self.x + self.width * 0.5
         self.centerY = self.y + self.height * 0.5
 
+        if(output[3] > 0) :
+            self.shootTimer += dt
+
+            if(self.shootTimer >= 0.25) :
+                g.bullets.append(Bullet(self.centerX, self.centerY, self.angle))
+                self.shootTimer = 0
+
+    def bound(self) :
+        self.x = self.x if(self.x + self.width <= 800) else 800 - self.width
+        self.x = 0 if(self.x <= 0) else self.x
+        self.y = self.y if (self.y + self.height <= 600) else 600 - self.height
+        self.y = 0 if(self.y <= 0) else self.y
+
+    def computePoints(self) :
         for i in range(4) :
             point = self.points[i]
 
@@ -88,5 +101,5 @@ class SpaceShip :
         rotate([self.centerX, self.centerY], self.points, self.angle)
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, white, self.points, 2)
+        pg.draw.polygon(screen, g.white, self.points, 2)
         self.nn.draw(screen)

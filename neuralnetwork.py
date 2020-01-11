@@ -1,14 +1,9 @@
+import pygame as pg
+import globals as g
 
 from io import StringIO
 from matrix import Matrix
 from random import random
-from color import colors
-import pygame as pg
-
-white = colors["white"]
-black = colors["black-dark"]
-blue = colors["blue"]
-red = colors["red"]
 
 def relu(x) :
     return max(0, x)
@@ -98,13 +93,13 @@ class NeuralNetwork :
                         neuron2 = self.neuronCoords[i + 1][n2]
 
                         weight = self.weights[i + 1].matrix[n][n2]
-                        color = (weight >= 0) and blue or red
+                        color = (weight >= 0) and g.blue or g.red
                         weight = int(abs(weight * 6))
                         weight = weight > 0 and weight or 1
 
                         pg.draw.line(screen, color, neuron, neuron2, weight)
 
                 out = (i == 0) and 1 or self.outputs[i - 1].matrix[0][n]
-                color = (out > 0) and white or black
+                color = (out > 0) and g.white or g.black_dark
 
                 pg.draw.circle(screen, color, self.neuronCoords[i][n], self.neuronSize)

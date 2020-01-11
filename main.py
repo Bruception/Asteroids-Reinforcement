@@ -1,7 +1,8 @@
 
+import globals as g
+
 import pygame as pg
 import sys
-from color import colors
 from spaceship import SpaceShip
 
 pg.init()
@@ -17,12 +18,20 @@ mySpace = SpaceShip()
 def update(dt) :
     mySpace.update(dt)
 
+    for bullet in g.bullets :
+        bullet.update(dt)
+
+    g.bullets = list(filter(lambda b : not b.delete, g.bullets))
+
 def draw(screen) :
-    screen.fill(colors["black"])
+    screen.fill(g.black)
 
     mySpace.draw(screen)
 
-    fps = font.render(str(int(clock.get_fps())), True, pg.Color('white'))
+    for bullet in g.bullets :
+        bullet.draw(screen)
+
+    fps = font.render(str(int(clock.get_fps())), True, g.white)
     screen.blit(fps, (750, 30))
 
 def main() :
