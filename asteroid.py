@@ -12,7 +12,8 @@ class Asteroid :
         self.y = y
         self.angle = angle
 
-        self.vel = 200
+
+        self.vel = (radius * 1.11) + 216.66
 
         self.vx = math.cos(self.angle) * self.vel
         self.vy = math.sin(self.angle) * self.vel

@@ -6,6 +6,7 @@ import sys
 
 from spaceship import SpaceShip
 from asteroid import Asteroid
+from asteroidnode import AsteroidNode
 
 from random import randrange
 import math
@@ -44,9 +45,17 @@ def update(dt) :
             distances = []
             for asteroid in g.asteroids :
                 g.distance(ship, asteroid)
-                distances.append(g.distance(ship, asteroid))
+                astNode = AsteroidNode(ship, asteroid)
+                distances.append(astNode)
 
-            input = heapq.nsmallest(6, distances)
+            smallest = heapq.nsmallest(6, distances)
+            input = []
+
+            for node in smallest:
+                input.append(node.dx)
+                input.append(node.dy)
+                input.append(node.angle)
+
             ship.update(dt, input)
 
         for bullet in g.bullets :
@@ -93,10 +102,10 @@ def update(dt) :
         for i in range(8) :
             spawnAsteroid()
 
-        for i in range(8) :
+        for i in range(5) :
             g.ships.append(bestShip.crossover(secondBestShip))
 
-        for i in range(2) :
+        for i in range(5) :
             g.ships.append(SpaceShip())
 
 def draw(screen) :
