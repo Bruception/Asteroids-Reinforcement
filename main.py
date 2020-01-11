@@ -4,6 +4,9 @@ import globals as g
 import pygame as pg
 import sys
 from spaceship import SpaceShip
+from asteroid import Asteroid
+
+myAsteroid = Asteroid(400, 300, 1, False)
 
 pg.init()
 
@@ -13,7 +16,7 @@ pg.display.set_caption("Asteroids!")
 font = pg.font.Font(None, 30)
 clock = pg.time.Clock()
 
-for i in range(10) :
+for i in range(5) :
     g.ships.append(SpaceShip())
 
 def update(dt) :
@@ -22,6 +25,8 @@ def update(dt) :
 
     for bullet in g.bullets :
         bullet.update(dt)
+
+    myAsteroid.update(dt)
 
     g.bullets = list(filter(lambda b : not b.delete, g.bullets))
 
@@ -35,6 +40,8 @@ def draw(screen) :
         bullet.draw(screen)
 
     g.ships[0].nn.draw(screen)
+
+    myAsteroid.draw(screen)
 
     fps = font.render(str(int(clock.get_fps())), True, g.white)
     screen.blit(fps, (750, 30))
