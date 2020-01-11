@@ -94,5 +94,5 @@ class SpaceShip :
         rotate([self.x, self.y], self.points, self.angle)
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, g.white, self.points, 2)
+        pg.draw.polygon(screen, g.white, self.points, 4)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
