@@ -31,7 +31,7 @@ def spawnAsteroid() :
 for i in range(10) :
     g.ships.append(SpaceShip())
 
-for i in range(14) :
+for i in range(10) :
     spawnAsteroid()
 
 def update(dt) :
@@ -62,7 +62,7 @@ def update(dt) :
     g.asteroids =  g.filterDelete(g.asteroids)
     g.ships = g.filterDelete(g.ships)
 
-    if(len(g.asteroids) < 14) :
+    if(len(g.asteroids) < 10) :
         spawnAsteroid()
 
 def draw(screen) :

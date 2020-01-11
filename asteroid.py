@@ -3,7 +3,7 @@ import pygame as pg
 import globals as g
 
 import math
-from random import random
+from random import random, randrange
 
 class Asteroid :
 
@@ -54,8 +54,8 @@ class Asteroid :
         halfRadius = int(self.radius / 2)
 
         if(halfRadius > 10) :
-            g.asteroids.append(Asteroid(self.x, self.y, random(), halfRadius))
-            g.asteroids.append(Asteroid(self.x, self.y, random(), halfRadius))
+            g.asteroids.append(Asteroid(self.x, self.y, math.radians(randrange(0, 360)), halfRadius))
+            g.asteroids.append(Asteroid(self.x, self.y, math.radians(randrange(0, 360)), halfRadius))
 
     def computeCoords(self) :
         for i in range(len(self.points)) :
@@ -63,5 +63,5 @@ class Asteroid :
             self.points[i][1] = self.y + self.offsets[i][1]
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, g.orange, self.points, 2)
+        pg.draw.polygon(screen, g.orange, self.points, 4)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
