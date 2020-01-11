@@ -1,5 +1,5 @@
 from io import StringIO
-from random import random
+from random import random, randrange
 
 class Matrix :
     def __init__(self, rows, columns) :
@@ -66,17 +66,17 @@ class Matrix :
 
         return unpacked
 
-
-    #(i < randR) or (i == randR and j <= randC)
-
     def crossover(self, other) :
         newMatrix = Matrix(self.rows, self.columns)
 
+        randP = randrange(0, (self.rows * self.columns) - 1)
+
         for i in range(self.rows) :
             for j in range(self.columns) :
-                randChance = random()
 
-                if(randChance >= 0.5) :
+                currIndex = (i * self.columns) + j
+
+                if(currIndex >= randP) :
                     newMatrix.matrix[i][j] = self.matrix[i][j]
                 else :
                     newMatrix.matrix[i][j] = other.matrix[i][j]
