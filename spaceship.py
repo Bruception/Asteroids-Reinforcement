@@ -54,7 +54,7 @@ class SpaceShip :
         self.angle = 0
         self.nn = NeuralNetwork(shape)
 
-        self.hidden = False
+        self.delete = False
 
     def update(self, dt, input) :
         self.computeActions(dt, input)
@@ -94,6 +94,5 @@ class SpaceShip :
         rotate([self.x, self.y], self.points, self.angle)
 
     def draw(self, screen) :
-        if(self.hidden) : return
         pg.draw.polygon(screen, g.white, self.points, 2)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
