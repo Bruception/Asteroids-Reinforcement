@@ -10,7 +10,7 @@ myAsteroid = Asteroid(400, 300, 1, False)
 
 pg.init()
 
-screen = pg.display.set_mode([800, 600])
+screen = pg.display.set_mode([g.width, g.height])
 pg.display.set_caption("Asteroids!")
 
 font = pg.font.Font(None, 30)
