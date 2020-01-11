@@ -13,7 +13,7 @@ blue =  (30, 144, 255)
 black = (47, 53, 66)
 black_dark = (0, 0, 0)
 white = (255, 255, 255)
-
+orange = (255, 127, 80)
 
 def bound(entity) :
     if(entity.x - entity.radius >= width) :
@@ -49,3 +49,6 @@ def distance(entity1, entity2) :
     dy *= dy
 
     return math.sqrt(dx + dy) * angle
+
+def filterDelete(entities) :
+    return list(filter(lambda e : not e.delete, entities))
