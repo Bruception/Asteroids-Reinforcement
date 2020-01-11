@@ -83,6 +83,8 @@ class NeuralNetwork :
                 self.neuronCoords[i].append([int(neuronX), int(neuronY)])
 
     def draw(self, screen) :
+        if(self.outputs[0] == None) :
+            return
         # Draw Network
         color = None
         for i in range(self.numLayers) :

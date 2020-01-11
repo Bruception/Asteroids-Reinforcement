@@ -9,7 +9,7 @@ class Bullet :
         self.y = y
 
         self.angle = angle
-        self.vel = 250
+        self.vel = 550
 
         self.width = 3
         self.height = 3

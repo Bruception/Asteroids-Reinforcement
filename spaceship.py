@@ -65,15 +65,20 @@ class SpaceShip :
 
     def computeActions(self, dt) :
         output = self.nn.feedforward(
-            [[10 * random(), 10 * random(), 10 * random()]]
+            [[10 * (random() - random()), 10 * (random() - random()), 10 * (random() - random())]]
         )
 
         self.angle += output[0] * dt
         self.angle -= output[1] * dt
-        self.vel = min(100 * output[2], 200)
+
+        self.vel = (self.vel + 200 * dt) if(output[2] > 0) else self.vel
+
+        self.vel = min(self.vel, 500)
 
         self.x += self.vel * math.cos(self.angle) * dt
         self.y += self.vel * math.sin(self.angle) * dt
+
+        self.vel *= 0.98
 
         self.centerX = self.x + self.width * 0.5
         self.centerY = self.y + self.height * 0.5
