@@ -9,7 +9,7 @@ from matrix import Matrix
 import math
 from random import random
 
-shape = [(1, 18), (18, 16), (16, 16), (16, 16), (16, 16), (16, 4)]
+shape = [(1, 12), (12, 16), (16, 16), (16, 16), (16, 16), (16, 4)]
 
 pointOffsets = [
     [15, 0],

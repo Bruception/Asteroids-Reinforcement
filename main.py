@@ -45,7 +45,7 @@ def update(dt) :
             distances = []
             for asteroid in g.asteroids :
                 priority, dx, dy = g.distance(ship, asteroid)
-                astNode = AsteroidNode(asteroid, priority, dx, dy)
+                astNode = AsteroidNode(priority, dx, dy)
                 distances.append(astNode)
 
             smallest = heapq.nsmallest(6, distances)
@@ -54,7 +54,6 @@ def update(dt) :
             for node in smallest:
                 input.append(node.dx)
                 input.append(node.dy)
-                input.append(node.angle)
 
             ship.update(dt, input)
 
@@ -102,10 +101,10 @@ def update(dt) :
         for i in range(8) :
             spawnAsteroid()
 
-        for i in range(5) :
+        for i in range(6) :
             g.ships.append(bestShip.crossover(secondBestShip))
 
-        for i in range(5) :
+        for i in range(4) :
             g.ships.append(SpaceShip())
 
 def draw(screen) :

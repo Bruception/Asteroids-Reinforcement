@@ -4,11 +4,9 @@ import math
 
 class AsteroidNode :
 
-    def __init__(self, asteroid, priority, dx, dy) :
+    def __init__(self, priority, dx, dy) :
         self.dx = dx
         self.dy = dy
-
-        self.angle = asteroid.angle
         self.priority = priority
 
     def __lt__(self, other) :
