@@ -26,8 +26,8 @@ class Asteroid :
 
         for i in range(0, 360, 30) :
 
-            offsetX = self.radius + (-random()) * (self.radius / 3)
-            offsetY = self.radius + (-random()) * (self.radius / 3)
+            offsetX = self.radius + (-random()) * (self.radius / 2)
+            offsetY = self.radius + (-random()) * (self.radius / 2)
 
             offsetX *= math.cos(math.radians(i))
             offsetY *= math.sin(math.radians(i))
@@ -63,5 +63,5 @@ class Asteroid :
             self.points[i][1] = self.y + self.offsets[i][1]
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, g.red, self.points, 2)
+        pg.draw.polygon(screen, g.orange, self.points, 2)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
