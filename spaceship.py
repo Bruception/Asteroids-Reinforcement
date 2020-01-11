@@ -76,7 +76,7 @@ class SpaceShip :
             self.angle -= 4 * dt
 
         self.vel = (self.vel + 200 * dt) if(output[2] > 0) else self.vel
-        self.vel = min(self.vel, 500)
+        self.vel = min(self.vel, 600)
 
         self.x += self.vel * math.cos(self.angle) * dt
         self.y += self.vel * math.sin(self.angle) * dt
@@ -94,10 +94,15 @@ class SpaceShip :
                 self.shootTimer = 0
 
     def bound(self) :
-        self.x = self.x if(self.x + self.width <= 800) else 800 - self.width
-        self.x = 0 if(self.x <= 0) else self.x
-        self.y = self.y if (self.y + self.height <= 600) else 600 - self.height
-        self.y = 0 if(self.y <= 0) else self.y
+        if(self.x >= 800 + self.width) :
+            self.x = -self.width
+        elif(self.x <= -self.height) :
+            self.x = 800 + self.width
+
+        if(self.y >= 600 + self.height) :
+            self.y = -self.height
+        elif(self.y <= -self.height) :
+            self.y = 600 + self.height
 
     def computePoints(self) :
         for i in range(4) :
