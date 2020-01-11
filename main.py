@@ -44,8 +44,8 @@ def update(dt) :
         for ship in g.ships :
             distances = []
             for asteroid in g.asteroids :
-                g.distance(ship, asteroid)
-                astNode = AsteroidNode(ship, asteroid)
+                priority, dx, dy = g.distance(ship, asteroid)
+                astNode = AsteroidNode(asteroid, priority, dx, dy)
                 distances.append(astNode)
 
             smallest = heapq.nsmallest(6, distances)
