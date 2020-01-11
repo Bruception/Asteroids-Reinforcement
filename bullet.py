@@ -14,7 +14,7 @@ class Bullet :
         self.width = 3
         self.height = 3
 
-        self.size = 3
+        self.radius = 3
 
         self.delete = False
 
@@ -22,8 +22,8 @@ class Bullet :
         self.vy = math.sin(self.angle) * self.vel
 
     def bound(self) :
-        boundX = (self.x - self.size <= 0) or (self.x + self.size >= 800)
-        boundY = (self.y - self.size <= 0) or (self.y + self.size >= 600)
+        boundX = (self.x - self.radius <= 0) or (self.x + self.radius >= 800)
+        boundY = (self.y - self.radius <= 0) or (self.y + self.radius >= 600)
 
         self.delete = boundX or boundY
 
@@ -34,4 +34,4 @@ class Bullet :
         self.bound()
 
     def draw(self, screen) :
-        pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.size)
+        pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius)
