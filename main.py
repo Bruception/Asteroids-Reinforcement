@@ -7,7 +7,8 @@ import sys
 from spaceship import SpaceShip
 from asteroid import Asteroid
 
-from random import random
+from random import randrange
+import math
 import heapq
 
 pg.init()
@@ -18,11 +19,20 @@ pg.display.set_caption("Asteroids!")
 font = pg.font.Font(None, 30)
 clock = pg.time.Clock()
 
+def spawnAsteroid() :
+    randomAngle = math.radians(randrange(0, 360))
+    randDist = randrange(200, 400)
+
+    ax = 400 + (randDist * math.cos(randomAngle))
+    ay = 300 + (randDist * math.sin(randomAngle))
+
+    g.asteroids.append(Asteroid(ax, ay, randomAngle, 60))
+
 for i in range(10) :
     g.ships.append(SpaceShip())
 
 for i in range(14) :
-    g.asteroids.append(Asteroid(0, 0, random(), 60))
+    spawnAsteroid()
 
 def update(dt) :
 
@@ -38,22 +48,22 @@ def update(dt) :
     for bullet in g.bullets :
         bullet.update(dt)
         for asteroid in g.asteroids :
-            if(g.areColliding(asteroid, bullet)) :
+            if(not bullet.delete and g.areColliding(asteroid, bullet)) :
                 asteroid.split()
                 bullet.delete = True
 
     for asteroid in g.asteroids :
         asteroid.update(dt)
         for ship in g.ships :
-            if(not ship.hidden and g.areColliding(asteroid, ship)) :
-                ship.hidden = True
+            if(not ship.delete and g.areColliding(asteroid, ship)) :
+                ship.delete = True
 
-    g.bullets = list(filter(lambda b : not b.delete, g.bullets))
-    g.asteroids = list(filter(lambda a : not a.delete, g.asteroids))
-    g.ships = list(filter(lambda s : not s.hidden, g.ships))
+    g.bullets = g.filterDelete(g.bullets)
+    g.asteroids =  g.filterDelete(g.asteroids)
+    g.ships = g.filterDelete(g.ships)
 
     if(len(g.asteroids) < 14) :
-        g.asteroids.append(Asteroid(0, 0, random(), 60))
+        spawnAsteroid()
 
 def draw(screen) :
     screen.fill(g.black)
