@@ -1,33 +1,59 @@
 
+import globals as g
+
 import pygame as pg
-import color
-from neuralnetwork import NeuralNetwork
-
-nn = NeuralNetwork([(1, 10), (10, 11), (11, 11), (11, 11), (11, 4)])
-print(nn.feedforward([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]))
-
-colors = color.colors
+import sys
+from spaceship import SpaceShip
 
 pg.init()
-font = pg.font.Font(None, 30)
-clock = pg.time.Clock()
 
 screen = pg.display.set_mode([800, 600])
 pg.display.set_caption("Asteroids!")
 
-running = True
+font = pg.font.Font(None, 30)
+clock = pg.time.Clock()
 
-while (running) :
-    for event in pg.event.get() :
-        if (event.type == pg.QUIT) :
-            running = False
+for i in range(10) :
+    g.ships.append(SpaceShip())
 
-    screen.fill(colors["black"])
-    nn.draw(screen)
-    fps = font.render(str(int(clock.get_fps())), True, pg.Color('white'))
-    screen.blit(fps, (50, 50))
-    clock.tick(30)
+def update(dt) :
+    for ship in g.ships :
+        ship.update(dt)
 
-    pg.display.flip()
+    for bullet in g.bullets :
+        bullet.update(dt)
 
-pg.quit()
+    g.bullets = list(filter(lambda b : not b.delete, g.bullets))
+
+def draw(screen) :
+    screen.fill(g.black)
+
+    for ship in g.ships :
+        ship.draw(screen)
+
+    for bullet in g.bullets :
+        bullet.draw(screen)
+
+    g.ships[0].nn.draw(screen)
+
+    fps = font.render(str(int(clock.get_fps())), True, g.white)
+    screen.blit(fps, (750, 30))
+
+def main() :
+    running = True
+    while (running) :
+        for event in pg.event.get() :
+            if (event.type == pg.QUIT) :
+                running = False
+
+        dt = 1 / (clock.tick(30))
+
+        update(dt)
+        draw(screen)
+
+        pg.display.flip()
+
+    pg.quit()
+    sys.exit()
+
+main()
