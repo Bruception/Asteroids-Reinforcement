@@ -31,39 +31,60 @@ def spawnAsteroid() :
 for i in range(10) :
     g.ships.append(SpaceShip())
 
-for i in range(10) :
+for i in range(8) :
     spawnAsteroid()
+
+deletedShips = []
+generation = 0
 
 def update(dt) :
 
-    for ship in g.ships :
-        distances = []
-        for asteroid in g.asteroids :
-            g.distance(ship, asteroid)
-            distances.append(g.distance(ship, asteroid))
-
-        input = heapq.nsmallest(6, distances)
-        ship.update(dt, input)
-
-    for bullet in g.bullets :
-        bullet.update(dt)
-        for asteroid in g.asteroids :
-            if(not bullet.delete and g.areColliding(asteroid, bullet)) :
-                asteroid.split()
-                bullet.remove()
-
-    for asteroid in g.asteroids :
-        asteroid.update(dt)
+    if(len(g.ships) > 0) :
         for ship in g.ships :
-            if(not ship.delete and g.areColliding(asteroid, ship)) :
-                ship.delete = True
+            distances = []
+            for asteroid in g.asteroids :
+                g.distance(ship, asteroid)
+                distances.append(g.distance(ship, asteroid))
 
-    g.bullets = g.filterDelete(g.bullets)
-    g.asteroids =  g.filterDelete(g.asteroids)
-    g.ships = g.filterDelete(g.ships)
+            input = heapq.nsmallest(6, distances)
+            ship.update(dt, input)
 
-    if(len(g.asteroids) < 10) :
-        spawnAsteroid()
+        for bullet in g.bullets :
+            bullet.update(dt)
+            for asteroid in g.asteroids :
+                if(not bullet.delete and g.areColliding(asteroid, bullet)) :
+                    asteroid.split()
+                    bullet.remove()
+
+        for asteroid in g.asteroids :
+            asteroid.update(dt)
+            for ship in g.ships :
+                if(not ship.delete and g.areColliding(asteroid, ship)) :
+                    ship.delete = True
+                    deletedShips.append(ship)
+
+        g.bullets = g.filterDelete(g.bullets)
+        g.asteroids =  g.filterDelete(g.asteroids)
+        g.ships = g.filterDelete(g.ships)
+
+        if(len(g.asteroids) < 8) :
+            spawnAsteroid()
+
+    else :
+
+        global generation
+
+        generation += 1
+
+        bestShip = deletedShips[0]
+        secondBestShip = deletedShips[1]
+
+        for ship in deletedShips :
+            if(ship.fitnessScore > bestShip.fitnessScore) :
+                secondBestShip = bestShip
+                bestShip = ship
+            elif (ship.fitnessScore > secondBestShip.fitnessScore) :
+                secondBestShip = ship
 
 def draw(screen) :
     screen.fill(g.black)
@@ -80,8 +101,9 @@ def draw(screen) :
     if (len(g.ships) > 0) :
         g.ships[0].nn.draw(screen)
 
-    fps = font.render(str(int(clock.get_fps())), True, g.white)
-    screen.blit(fps, (750, 30))
+    gen = font.render("Generation: " + (str(generation)), True, g.white)
+
+    screen.blit(gen, (600, 20))
 
 def main() :
     running = True

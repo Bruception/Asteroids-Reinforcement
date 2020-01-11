@@ -31,7 +31,9 @@ class Bullet :
 
     def remove(self) :
         self.delete = True
-        self.shooter.fitnessScore += 5
+
+        if(not self.shooter.delete) :
+            self.shooter.fitnessScore += 1
 
     def update(self, dt) :
         self.x += self.vx * dt
