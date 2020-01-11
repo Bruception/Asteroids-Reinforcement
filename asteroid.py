@@ -44,19 +44,9 @@ class Asteroid :
         self.x += self.vx * dt
         self.y += self.vy * dt
 
-        self.bound()
+        g.bound(self)
         self.computeCoords()
 
-    def bound(self) :
-        if(self.x - self.radius >= 800) :
-            self.x = -self.radius
-        elif(self.x <= -self.radius) :
-            self.x = 800 + self.radius
-
-        if(self.y - self.radius >= 600) :
-            self.y = -self.radius
-        elif(self.y <= -self.radius) :
-            self.y = 600 + self.radius
 
     def computeCoords(self) :
         for i in range(len(self.points)) :

@@ -105,3 +105,4 @@ class NeuralNetwork :
                 color = (out > 0) and g.white or g.black_dark
 
                 pg.draw.circle(screen, color, self.neuronCoords[i][n], self.neuronSize)
+                

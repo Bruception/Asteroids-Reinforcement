@@ -37,13 +37,9 @@ def rotate(origin, points, angle) :
 class SpaceShip :
 
     def __init__(self) :
-        self.x = 375
-        self.y = 275
-        self.width = 30
-        self.height = 30
-
-        self.centerX = self.x + self.width * 0.5
-        self.centerY = self.y + self.height * 0.5
+        self.x = 400
+        self.y = 300
+        self.radius = 15
 
         self.shootTimer = 0
 
@@ -60,7 +56,7 @@ class SpaceShip :
 
     def update(self, dt) :
         self.computeActions(dt)
-        self.bound()
+        g.bound(self)
         self.computePoints()
 
     def computeActions(self, dt) :
@@ -76,43 +72,29 @@ class SpaceShip :
             self.angle -= 4 * dt
 
         self.vel = (self.vel + 200 * dt) if(output[2] > 0) else self.vel
-        self.vel = min(self.vel, 600)
+        self.vel = min(self.vel, 800)
 
         self.x += self.vel * math.cos(self.angle) * dt
         self.y += self.vel * math.sin(self.angle) * dt
 
         self.vel *= 0.98
 
-        self.centerX = self.x + self.width * 0.5
-        self.centerY = self.y + self.height * 0.5
-
         if(output[3] > 0) :
             self.shootTimer += dt
 
             if(self.shootTimer >= 0.25) :
-                g.bullets.append(Bullet(self.centerX, self.centerY, self.angle))
+                g.bullets.append(Bullet(self.x, self.y, self.angle))
                 self.shootTimer = 0
-
-    def bound(self) :
-        if(self.x >= 800 + self.width) :
-            self.x = -self.width
-        elif(self.x <= -self.height) :
-            self.x = 800 + self.width
-
-        if(self.y >= 600 + self.height) :
-            self.y = -self.height
-        elif(self.y <= -self.height) :
-            self.y = 600 + self.height
 
     def computePoints(self) :
         for i in range(4) :
             point = self.points[i]
 
-            point[0] = self.centerX + pointOffsets[i][0]
-            point[1] = self.centerY + pointOffsets[i][1]
+            point[0] = self.x + pointOffsets[i][0]
+            point[1] = self.y + pointOffsets[i][1]
 
-        rotate([self.centerX, self.centerY], self.points, self.angle)
+        rotate([self.x, self.y], self.points, self.angle)
 
     def draw(self, screen) :
         pg.draw.polygon(screen, g.white, self.points, 2)
-        #self.nn.draw(screen)
+        #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
