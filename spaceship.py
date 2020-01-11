@@ -43,6 +43,8 @@ class SpaceShip :
 
         self.shootTimer = 0
 
+        self.fitnessScore = 0
+
         self.points = [
             [0, 0],
             [0, 0],
@@ -60,6 +62,8 @@ class SpaceShip :
         self.computeActions(dt, input)
         g.bound(self)
         self.computePoints()
+
+        self.fitnessScore += dt
 
     def computeActions(self, dt, input) :
         output = self.nn.feedforward([input])
@@ -81,7 +85,7 @@ class SpaceShip :
             self.shootTimer += dt
 
             if(self.shootTimer >= 0.25) :
-                g.bullets.append(Bullet(self.x, self.y, self.angle))
+                g.bullets.append(Bullet(self.x, self.y, self.angle, self))
                 self.shootTimer = 0
 
     def computePoints(self) :

@@ -50,7 +50,7 @@ def update(dt) :
         for asteroid in g.asteroids :
             if(not bullet.delete and g.areColliding(asteroid, bullet)) :
                 asteroid.split()
-                bullet.delete = True
+                bullet.remove()
 
     for asteroid in g.asteroids :
         asteroid.update(dt)

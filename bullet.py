@@ -4,12 +4,14 @@ import math
 import globals as g
 
 class Bullet :
-    def __init__(self, x, y, angle) :
+    def __init__(self, x, y, angle, shooter) :
         self.x = x
         self.y = y
 
         self.angle = angle
         self.vel = 550
+
+        self.shooter = shooter
 
         self.width = 3
         self.height = 3
@@ -26,6 +28,10 @@ class Bullet :
         boundY = (self.y - self.radius <= 0) or (self.y + self.radius >= 600)
 
         self.delete = boundX or boundY
+
+    def remove(self) :
+        self.delete = True
+        self.shooter.fitnessScore += 5
 
     def update(self, dt) :
         self.x += self.vx * dt
