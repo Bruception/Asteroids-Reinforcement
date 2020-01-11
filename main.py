@@ -20,13 +20,17 @@ for i in range(5) :
     g.ships.append(SpaceShip())
 
 def update(dt) :
+
+    myAsteroid.update(dt)
+
     for ship in g.ships :
         ship.update(dt)
 
+        if(g.areColliding(ship, myAsteroid)) :
+            print("Collision! with", ship)
+
     for bullet in g.bullets :
         bullet.update(dt)
-
-    myAsteroid.update(dt)
 
     g.bullets = list(filter(lambda b : not b.delete, g.bullets))
 

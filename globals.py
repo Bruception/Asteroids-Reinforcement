@@ -24,7 +24,7 @@ def bound(entity) :
         entity.y = height + entity.radius
 
 def areColliding(entity1, entity2) :
-    dx = entity1.x - entity2.y
+    dx = entity1.x - entity2.x
     dy = entity1.y - entity2.y
     dx *= dx
     dy *= dy
