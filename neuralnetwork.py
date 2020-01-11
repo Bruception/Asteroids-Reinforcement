@@ -21,9 +21,9 @@ class NeuralNetwork :
 
         self.x = 20
         self.y = 20
-        self.layerMargin = 48
-        self.neuronSize = 6
-        self.neuronMargin = 10
+        self.layerMargin = 36
+        self.neuronSize = 4
+        self.neuronMargin = 6
         self.maxHeight = 0
 
         for i in range(self.numLayers) :
