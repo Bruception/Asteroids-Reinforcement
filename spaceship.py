@@ -36,7 +36,7 @@ def rotate(origin, points, angle) :
 
 class SpaceShip :
 
-    def __init__(self) :
+    def __init__(self, child = False) :
         self.x = 400
         self.y = 300
         self.radius = 15
@@ -54,7 +54,7 @@ class SpaceShip :
 
         self.vel = 100
         self.angle = 0
-        self.nn = NeuralNetwork(shape)
+        self.nn = None if (child) else NeuralNetwork(shape)
 
         self.delete = False
 
@@ -96,6 +96,14 @@ class SpaceShip :
             point[1] = self.y + pointOffsets[i][1]
 
         rotate([self.x, self.y], self.points, self.angle)
+
+    def crossover(self, other) :
+        child = SpaceShip(True)
+        
+        newNetwork = self.nn.crossover(other.nn, shape)
+        child.nn = newNetwork
+
+        return child
 
     def draw(self, screen) :
         pg.draw.polygon(screen, g.white, self.points, 4)

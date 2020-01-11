@@ -87,6 +87,12 @@ def update(dt) :
         g.bullets.clear()
         g.asteroids.clear()
 
+        for i in range(5) :
+            g.ships.append(bestShip.crossover(secondBestShip))
+
+        for i in range(5) :
+            g.ships.append(SpaceShip())
+
 def draw(screen) :
     screen.fill(g.black)
 
