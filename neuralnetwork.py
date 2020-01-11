@@ -14,6 +14,7 @@ def rand(x) :
 class NeuralNetwork :
 
     def __init__(self, shape) :
+
         self.weights = []
         self.biases = []
         self.outputs = []
@@ -55,6 +56,29 @@ class NeuralNetwork :
             output = self.outputs[index]
 
         return self.outputs[-1].unpack()
+
+
+    def crossover(self, other, shape) :
+        newNetwork = NeuralNetwork(shape)
+
+        newWeights = []
+        newBiases = []
+
+        # Crossover weights
+        for i in range(0, self.numLayers) :
+            newWeight = self.weights[i].crossover(other.weights[i])
+            newWeights.append(newWeight)
+
+        #Crossover biases
+        for i in range(0, self.numLayers - 1) :
+            newBias = self.biases[i].crossover(other.biases[i])
+            newBiases.append(newBias)
+
+        newNetwork.weights = newWeights
+        newNetwork.biases = newBiases
+
+        return newNetwork
+
 
     def __str__(self) :
         outStr = StringIO()
@@ -105,4 +129,3 @@ class NeuralNetwork :
                 color = (out > 0) and g.white or g.black_dark
 
                 pg.draw.circle(screen, color, self.neuronCoords[i][n], self.neuronSize)
-                
