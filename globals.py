@@ -42,13 +42,10 @@ def distance(entity1, entity2) :
     dx = entity1.x - entity2.x
     dy = entity1.y - entity2.y
 
-    angle = math.atan2(dy, dx)
-    angle = 1 if(angle >= 0) else -1
-
     dx *= dx
     dy *= dy
 
-    return math.sqrt(dx + dy) * angle
+    return math.sqrt(dx + dy)
 
 def filterDelete(entities) :
     return list(filter(lambda e : not e.delete, entities))

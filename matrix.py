@@ -1,4 +1,5 @@
 from io import StringIO
+from random import randrange, random
 
 class Matrix :
     def __init__(self, rows, columns) :
@@ -64,6 +65,28 @@ class Matrix :
                 unpacked.append(self.matrix[i][j])
 
         return unpacked
+
+
+    #(i < randR) or (i == randR and j <= randC)
+
+    def crossover(self, other) :
+        newMatrix = Matrix(self.rows, self.columns)
+
+        randRow = randrange(0, self.rows - 1)
+        randCol = randrange(0, self.cols - 1)
+
+        for i in range(self.rows) :
+            for j in range(self.columns) :
+                if(i <= randRow or j <= randCol) :
+                    newMatrix.matrix[i][j] = self.matrix[i][j]
+                else :
+                    newMatrix.matrix[i][j] = other.matrix[i][j]
+
+                if(random() <= 0.05) :
+                    newMatrix.matrix[i][j] = random() - random()
+
+
+        return newMatrix
 
     def __str__(self) :
         outStr = StringIO()

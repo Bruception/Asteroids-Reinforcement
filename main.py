@@ -71,9 +71,7 @@ def update(dt) :
             spawnAsteroid()
 
     else :
-
         global generation
-
         generation += 1
 
         bestShip = deletedShips[0]
@@ -85,6 +83,9 @@ def update(dt) :
                 bestShip = ship
             elif (ship.fitnessScore > secondBestShip.fitnessScore) :
                 secondBestShip = ship
+
+        g.bullets.clear()
+        g.asteroids.clear()
 
 def draw(screen) :
     screen.fill(g.black)
