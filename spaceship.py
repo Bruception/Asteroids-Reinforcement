@@ -9,16 +9,25 @@ import math
 white = colors["white"]
 shape = [(1, 3), (3, 11), (11, 11), (11, 11), (11, 11), (11, 4)]
 
+pointOffsets = [
+    [15, 0],
+    [-15, -15],
+    [-7, 0],
+    [-15, 15]
+]
 
 def rotate(origin, points, angle) :
     ox, oy = origin[0], origin[1]
+
+    sin = math.sin
+    cos = math.cos
 
     for point in points :
         dx = point[0] - ox
         dy = point[1] - oy
 
-        rx = dx * math.cos(angle) - dy * math.sin(angle)
-        ry = dx * math.sin(angle) + dy * math.cos(angle)
+        rx = dx * cos(angle) - dy * sin(angle)
+        ry = dx * sin(angle) + dy * cos(angle)
 
         point[0] = rx + ox
         point[1] = ry + oy
@@ -46,11 +55,11 @@ class SpaceShip :
         self.nn = NeuralNetwork(shape)
 
     def update(self, dt) :
-        self.determineActions(dt)
+        self.computeActions(dt)
         self.bound()
         self.computePoints()
 
-    def determineActions(self, dt) :
+    def computeActions(self, dt) :
         output = self.nn.feedforward([[10 * random(), 10 * random(), 10 * random()]])
 
         self.angle = self.angle + output[0] * dt
@@ -70,14 +79,14 @@ class SpaceShip :
         self.centerX = self.x + self.width * 0.5
         self.centerY = self.y + self.height * 0.5
 
-        self.points[0][0], self.points[0][1] = self.centerX + 15, self.centerY
-        self.points[1][0], self.points[1][1] = self.centerX - 15, self.centerY - 15
-        self.points[2][0], self.points[2][1] = self.centerX - 7, self.centerY
-        self.points[3][0], self.points[3][1] = self.centerX - 15, self.centerY + 15
+        for i in range(4) :
+            point = self.points[i]
 
-    def draw(self, screen) :
+            point[0] = self.centerX + pointOffsets[i][0]
+            point[1] = self.centerY + pointOffsets[i][1]
 
         rotate([self.centerX, self.centerY], self.points, self.angle)
-        pg.draw.polygon(screen, white, self.points, 2)
 
+    def draw(self, screen) :
+        pg.draw.polygon(screen, white, self.points, 2)
         self.nn.draw(screen)
