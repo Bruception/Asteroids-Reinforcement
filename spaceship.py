@@ -107,4 +107,4 @@ class SpaceShip :
 
     def draw(self, screen) :
         pg.draw.polygon(screen, g.white, self.points, 2)
-        self.nn.draw(screen)
+        #self.nn.draw(screen)

@@ -13,10 +13,12 @@ pg.display.set_caption("Asteroids!")
 font = pg.font.Font(None, 30)
 clock = pg.time.Clock()
 
-mySpace = SpaceShip()
+for i in range(10) :
+    g.ships.append(SpaceShip())
 
 def update(dt) :
-    mySpace.update(dt)
+    for ship in g.ships :
+        ship.update(dt)
 
     for bullet in g.bullets :
         bullet.update(dt)
@@ -26,10 +28,13 @@ def update(dt) :
 def draw(screen) :
     screen.fill(g.black)
 
-    mySpace.draw(screen)
+    for ship in g.ships :
+        ship.draw(screen)
 
     for bullet in g.bullets :
         bullet.draw(screen)
+
+    g.ships[0].nn.draw(screen)
 
     fps = font.render(str(int(clock.get_fps())), True, g.white)
     screen.blit(fps, (750, 30))
