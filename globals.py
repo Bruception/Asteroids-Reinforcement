@@ -1,9 +1,12 @@
 
+import math
+
 width = 800
 height = 600
 
 bullets = []
 ships = []
+asteroids = []
 
 red = (255, 71, 87)
 blue =  (30, 144, 255)
@@ -33,3 +36,16 @@ def areColliding(entity1, entity2) :
     radiusSquared *= radiusSquared
 
     return (dx + dy) <= radiusSquared
+
+
+def distance(entity1, entity2) :
+    dx = entity1.x - entity2.x
+    dy = entity1.y - entity2.y
+
+    angle = math.atan2(dy, dx)
+    angle = 1 if(angle >= 0) else -1
+
+    dx *= dx
+    dy *= dy
+
+    return math.sqrt(dx + dy) * angle

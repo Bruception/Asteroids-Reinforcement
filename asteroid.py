@@ -7,18 +7,19 @@ from random import random
 
 class Asteroid :
 
-    def __init__(self, x, y, angle, isChild) :
+    def __init__(self, x, y, angle, radius) :
         self.x = x
         self.y = y
         self.angle = angle
-        self.isChild = isChild
 
         self.vel = 200
 
         self.vx = math.cos(self.angle) * self.vel
         self.vy = math.sin(self.angle) * self.vel
 
-        self.radius = 30 if(self.isChild) else 60
+        self.radius = radius
+
+        self.delete = False
 
         self.points = []
         self.offsets = []
@@ -47,6 +48,14 @@ class Asteroid :
         g.bound(self)
         self.computeCoords()
 
+    def split(self) :
+        self.delete = True
+
+        halfRadius = int(self.radius / 2)
+
+        if(halfRadius > 10) :
+            g.asteroids.append(Asteroid(self.x, self.y, random(), halfRadius))
+            g.asteroids.append(Asteroid(self.x, self.y, random(), halfRadius))
 
     def computeCoords(self) :
         for i in range(len(self.points)) :
@@ -54,5 +63,5 @@ class Asteroid :
             self.points[i][1] = self.y + self.offsets[i][1]
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, g.white, self.points, 2)
+        pg.draw.polygon(screen, g.red, self.points, 2)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)

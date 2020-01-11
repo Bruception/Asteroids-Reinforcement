@@ -9,7 +9,7 @@ from matrix import Matrix
 import math
 from random import random
 
-shape = [(1, 3), (3, 11), (11, 11), (11, 11), (11, 11), (11, 4)]
+shape = [(1, 6), (6, 12), (12, 12), (12, 12), (12, 12), (12, 4)]
 
 pointOffsets = [
     [15, 0],
@@ -54,24 +54,22 @@ class SpaceShip :
         self.angle = 0
         self.nn = NeuralNetwork(shape)
 
-    def update(self, dt) :
-        self.computeActions(dt)
+        self.hidden = False
+
+    def update(self, dt, input) :
+        self.computeActions(dt, input)
         g.bound(self)
         self.computePoints()
 
-    def computeActions(self, dt) :
-        output = self.nn.feedforward(
-            [[  10 * (random() - random()),
-                10 * (random() - random()),
-                10 * (random() - random())]]
-        )
+    def computeActions(self, dt, input) :
+        output = self.nn.feedforward([input])
 
         if(output[0] > 0) :
             self.angle += 4 * dt
         if(output[1] > 0) :
             self.angle -= 4 * dt
 
-        self.vel = (self.vel + 200 * dt) if(output[2] > 0) else self.vel
+        self.vel = (self.vel + 300 * dt) if(output[2] > 0) else self.vel
         self.vel = min(self.vel, 800)
 
         self.x += self.vel * math.cos(self.angle) * dt
@@ -96,5 +94,6 @@ class SpaceShip :
         rotate([self.x, self.y], self.points, self.angle)
 
     def draw(self, screen) :
+        if(self.hidden) : return
         pg.draw.polygon(screen, g.white, self.points, 2)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
