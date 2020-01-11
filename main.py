@@ -52,14 +52,14 @@ def update(dt) :
         for bullet in g.bullets :
             bullet.update(dt)
             for asteroid in g.asteroids :
-                if(not bullet.delete and g.areColliding(asteroid, bullet)) :
+                if(not bullet.delete and not asteroid.delete and g.areColliding(asteroid, bullet)) :
                     asteroid.split()
                     bullet.remove()
 
         for asteroid in g.asteroids :
             asteroid.update(dt)
             for ship in g.ships :
-                if(not ship.delete and g.areColliding(asteroid, ship)) :
+                if(not ship.delete and not asteroid.delete and g.areColliding(asteroid, ship)) :
                     ship.delete = True
                     deletedShips.append(ship)
 
@@ -84,13 +84,19 @@ def update(dt) :
             elif (ship.fitnessScore > secondBestShip.fitnessScore) :
                 secondBestShip = ship
 
+        print(generation - 1, ", ", bestShip.fitnessScore)
+
         g.bullets.clear()
         g.asteroids.clear()
+        deletedShips.clear()
 
-        for i in range(5) :
+        for i in range(8) :
+            spawnAsteroid()
+
+        for i in range(8) :
             g.ships.append(bestShip.crossover(secondBestShip))
 
-        for i in range(5) :
+        for i in range(2) :
             g.ships.append(SpaceShip())
 
 def draw(screen) :

@@ -55,6 +55,7 @@ class SpaceShip :
         self.vel = 100
         self.angle = 0
         self.nn = None if (child) else NeuralNetwork(shape)
+        self.color = g.blue if(child) else g.white
 
         self.delete = False
 
@@ -99,12 +100,12 @@ class SpaceShip :
 
     def crossover(self, other) :
         child = SpaceShip(True)
-        
+
         newNetwork = self.nn.crossover(other.nn, shape)
         child.nn = newNetwork
 
         return child
 
     def draw(self, screen) :
-        pg.draw.polygon(screen, g.white, self.points, 4)
+        pg.draw.polygon(screen, self.color, self.points, 4)
         #pg.draw.circle(screen, g.white, [int(self.x), int(self.y)], self.radius, 2)
